@@ -9,8 +9,7 @@ public class DishIngredient {
     public DishIngredient(Integer id,
                           Ingredient ingredient,
                           Double requiredQuantity,
-                          String unit,
-                          Dish dish) {
+                          String unit) {
         this.id = id;
         this.ingredient = ingredient;
         this.requiredQuantity = requiredQuantity;
