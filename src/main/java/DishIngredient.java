@@ -6,10 +6,14 @@ public class DishIngredient {
     private Dish dish;
 
 
+    public DishIngredient() {
+
+        }
+
     public DishIngredient(Integer id,
                           Ingredient ingredient,
                           Double requiredQuantity,
-                          String unit) {
+                          String unit, Dish dish) {
         this.id = id;
         this.ingredient = ingredient;
         this.requiredQuantity = requiredQuantity;
@@ -21,5 +25,9 @@ public class DishIngredient {
     public Double getRequiredQuantity() { return requiredQuantity; }
     public String getUnit() { return unit; }
     public Dish getDish() { return dish; }
-
+    public void setId(Integer id) { this.id = id; }
+    public void setIngredient(Ingredient ingredient) { this.ingredient = ingredient; }
+    public void setRequiredQuantity(Double requiredQuantity) { this.requiredQuantity = requiredQuantity; }
+    public void setUnit(String unit) { this.unit = unit; }
+    public void setDish(Dish dish) { this.dish = dish; }
 }

@@ -7,7 +7,7 @@ VALUES
     ('Salade de fruits', 'DESSERT', NULL)
 ON CONFLICT DO NOTHING;
 
-INSERT INTO ingredient (name, category, price)
+INSERT INTO ingredient (name, category, selling_price)
 VALUES
     ('Laitue', 'VEGETABLE', 800.0),
     ('Tomate', 'VEGETABLE', 600.0),

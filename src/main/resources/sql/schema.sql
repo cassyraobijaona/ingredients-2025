@@ -1,4 +1,4 @@
-create type dish_type as enum ('STARTER', 'MAIN', 'DESSERT');
+create type dish_type as enum ('START', 'MAIN', 'DESSERT');
 
 
 create table dish
@@ -14,13 +14,13 @@ create table ingredient
 (
     id       serial primary key,
     name     varchar(255),
-    price    numeric(10, 2),
+    selling_price    numeric(10, 2),
     category ingredient_category,
     id_dish  int references dish (id)
 );
 
 alter table dish
-    add column if not exists price numeric(10, 2);
+    add column if not exists selling_price numeric(10, 2);
 
 
 alter table ingredient

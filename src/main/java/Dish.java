@@ -34,10 +34,10 @@ public class Dish {
                 );
             }
 
-            double price = di.getIngredient().getPrice();
+            double selling_price = di.getIngredient().getSellingPrice();
             double quantity = di.getRequiredQuantity();
 
-            total += price * quantity;
+            total += selling_price * quantity;
         }
 
         return total;
