@@ -8,11 +8,9 @@ public class Main {
         DataRetriever dataRetriever = new DataRetriever();
 
         try {
-            // 🔎 Vérification : afficher un plat avec ses ingrédients
             Dish dishTest = dataRetriever.findDishById(4);
             System.out.println("Plat récupéré : " + dishTest);
 
-            // 1️⃣ Récupérer des plats existants
             Dish dish1 = dataRetriever.findDishById(1);
             Dish dish2 = dataRetriever.findDishById(2);
 
@@ -25,7 +23,6 @@ public class Main {
                     System.out.println("  DI ingredient = " + di.getIngredient())
             );
 
-            // 2️⃣ Créer les DishOrder
             DishOrder dishOrder1 = new DishOrder();
             dishOrder1.setDish(dish1);
             dishOrder1.setQuantity(2);
@@ -34,17 +31,18 @@ public class Main {
             dishOrder2.setDish(dish2);
             dishOrder2.setQuantity(1);
 
-            // 3️⃣ Créer la commande
-            Order order = new Order();
+           Order order = new Order();
             order.setCreationDatetime(Instant.now());
+            order.setType(OrderTypeEnum.EAT_IN);
+            order.setStatus(OrderStatusEnum.CREATED);
             order.setDishOrders(List.of(dishOrder1, dishOrder2));
 
-            // 4️⃣ Sauvegarder la commande
             Order savedOrder = dataRetriever.saveOrder(order, order);
 
-            // 5️⃣ Affichage du résultat (preuve que ça marche)
-            System.out.println("\n✅ Commande enregistrée avec succès !");
+            System.out.println("\n Commande enregistrée avec succès !");
             System.out.println("Référence       : " + savedOrder.getReference());
+            System.out.println("Type            : " + savedOrder.getType());
+            System.out.println("Statut          : " + savedOrder.getStatus());
             System.out.println("Date création   : " + savedOrder.getCreationDatetime());
             System.out.println("Total HT        : " + savedOrder.getTotalHT());
             System.out.println("Total TTC       : " + savedOrder.getTotalTTC());
@@ -58,8 +56,27 @@ public class Main {
                 );
             }
 
+             Order retrievedOrder = dataRetriever.findOrderByReference(savedOrder.getReference());
+            System.out.println("\n✅ Commande récupérée : statut=" + retrievedOrder.getStatus() + ", type=" + retrievedOrder.getType());
+
+             retrievedOrder.setStatus(OrderStatusEnum.READY);
+            retrievedOrder.setType(OrderTypeEnum.TAKE_AWAY);
+            Order updatedOrder = dataRetriever.saveOrder(retrievedOrder, retrievedOrder);
+            System.out.println("\n✅ Commande mise à jour : statut=" + updatedOrder.getStatus() + ", type=" + updatedOrder.getType());
+
+           updatedOrder.setStatus(OrderStatusEnum.DELIVERED);
+            updatedOrder = dataRetriever.saveOrder(updatedOrder, updatedOrder);
+            System.out.println("\n✅ Commande livrée : statut=" + updatedOrder.getStatus());
+
+            try {
+                updatedOrder.setType(OrderTypeEnum.EAT_IN);
+                dataRetriever.saveOrder(updatedOrder, updatedOrder);
+            } catch (RuntimeException e) {
+                System.out.println("\n Tentative de modification après livraison : " + e.getMessage());
+            }
+
         } catch (RuntimeException e) {
-            System.err.println("❌ Erreur lors de la création de la commande : " + e.getMessage());
+            System.err.println(" Erreur : " + e.getMessage());
         }
     }
 }
